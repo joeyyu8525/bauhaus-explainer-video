@@ -4,6 +4,19 @@
 
 ---
 
+## 🎬 效果演示 (Showcase)
+
+<p align="center">
+  <img src="assets/demo_preview.gif" width="45%" alt="3D 舞台互动动效演示" />
+  &nbsp;&nbsp;
+  <img src="assets/showcase_stills.png" width="45%" alt="多场景成品截图" />
+</p>
+<p align="center">
+  <em>左图：体素小人跳跃、数据柱生长与气泡吐槽交互动效；右图：多章节 3D 舞台真实渲染成片截图</em>
+</p>
+
+---
+
 ## 🌟 核心特色
 
 - **现代主义包豪斯设计**：暖象牙白底（`#EFE9D8`）配合红黄蓝黑高对比几何构成，斜视角 3D 地面投影。
