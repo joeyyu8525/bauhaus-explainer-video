@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="importmap">{ "imports": { "three": "../node_modules/three/build/three.module.js" } }</script>
+<style>
+@font-face { font-family: "Noto Sans SC"; src: url("../assets/fonts/NotoSansSC-VF.ttf"); font-weight: 100 900; }
+@font-face { font-family: "Archivo Black"; src: url("../assets/fonts/ArchivoBlack-Regular.ttf"); font-weight: 400 900; }
+@font-face { font-family: "Archivo Variable"; src: url("../assets/fonts/Archivo-VF.ttf"); font-weight: 100 900; font-stretch: 62% 125%; }
+html, body { margin: 0; background: #efe9d8; overflow: hidden; }
+#wrap { position: relative; width: 768px; height: 960px; }
+canvas { position: absolute; left: 0; top: 0; }
+#hud { position: absolute; inset: 0; pointer-events: none; font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif; color: var(--ink, #141414); }
+#chap { position: absolute; left: 0; top: 0; padding: 26px 30px 16px 28px; background: var(--chap-bg, rgba(239,233,216,.86)); min-width: 150px; }
+#chap .zh { font-weight: 900; font-size: 46px; line-height: 1.05; letter-spacing: 1px; }
+#chap .en { font-family: "Archivo Variable", Arial, sans-serif; font-weight: 800; font-stretch: 125%; font-size: 11px; letter-spacing: 4.5px; margin-top: 7px; text-transform: uppercase; }
+#chap .bar { width: 34px; height: 4px; margin-top: 11px; }
+#chap .meta { font-size: 10.5px; font-weight: 500; margin-top: 9px; letter-spacing: .5px; color: var(--meta, #3a3a3a); }
+#sub { position: absolute; left: 28px; right: 28px; bottom: 44px; display: flex; align-items: flex-start; gap: 12px; }
+#sub .tx { background: var(--sub-bg, #141414); color: var(--sub-fg, #fff); font-weight: 700; font-size: 25px; line-height: 1.5; padding: 1px 9px 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone; display: inline; }
+#sub .mk { flex: none; width: 17px; height: 17px; margin-top: 12px; }
+#sub .mk.a { background: #1f4faa; border-radius: 50%; }
+#sub .mk.b { background: #d32a2a; }
+#sub .mk.c { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 17px solid #f2b61b; }
+.bub { position: absolute; left: 0; top: 0; transform-origin: 50% 100%; background: #f7f3e6; color: #141414; border: 3px solid #141414; box-shadow: 4px 4px 0 #141414; font-weight: 900; font-size: 23px; line-height: 1.25; padding: 5px 13px 7px; white-space: nowrap; margin-top: -12px; }
+.bub::after { content: ""; position: absolute; left: 50%; bottom: -14px; margin-left: -9px; border-left: 9px solid transparent; border-right: 9px solid transparent; border-top: 12px solid #141414; }
+.bub.red { background: #d32a2a; color: #f7f3e6; } .bub.yellow { background: #f2b61b; } .bub.blue { background: #1f4faa; color: #f7f3e6; }
+#brand { position: absolute; right: 26px; top: 30px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--meta, #3a3a3a); }
+</style>
+</head>
+<body>
+<div id="wrap"><canvas id="c" width="768" height="960"></canvas><div id="hud"></div></div>
+<script type="module">
+import { Stage, loadFonts, loadTextures } from './engine.js';
+const name = new URLSearchParams(location.search).get('show');
+try {
+  const mod = await import(name);
+  const show = mod.default;
+  window.__fonts = await loadFonts(show);
+  await loadTextures(show);
+  const stage = new Stage(document.getElementById('c'), document.getElementById('hud'), show);
+  window.__meta = { fps: show.fps || 22, duration: show.duration };
+  window.__show = show;
+  window.__render = (t) => stage.renderAt(t);
+  window.__check = (t) => stage.check(t);
+  stage.renderAt(0);
+  window.__ready = true;
+} catch (e) {
+  window.__error = String(e && e.stack || e);
+}
+</script>
+</body>
+</html>
